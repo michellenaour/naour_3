@@ -15,7 +15,7 @@ public class Fabrica_de_Poleras {
 
         while (!salir){
             System.out.println("Seleccione una opción:\n 1: Crear un nuevo pedido\n 2: Eliminar un pedido \n 3:salir\n ");
-            opcion = validarOpción();
+            opcion = leeropción();
             switch (opcion){
                 case 1:
                     pedidoNuevo();
@@ -68,7 +68,7 @@ public class Fabrica_de_Poleras {
     public static void eliminarPedido(){
         if(pedidos.size()>0) {
             mostarPedidos();
-            int i = validarIndice();
+            int i = leerindice();
             pedidos.remove(i);
         }
         else{
@@ -79,7 +79,8 @@ public class Fabrica_de_Poleras {
     /**
      * Método que muestra todos los elemntos del Arraylist Pedidos
      */
-    public static void mostarPedidos(){
+    public static void mostarPedidos() {
+        System.out.println("Lista de pedidos:");
         for(int i=0; i<pedidos.size(); i++){
             System.out.println(i+1+": "+pedidos.get(i));
         }
@@ -89,24 +90,38 @@ public class Fabrica_de_Poleras {
      * Método que revisa que el numéro de la opcion seleccionada sea válido
      * @return op valida seleccionada
      */
-    public static int validarOpción(){
-        int op;
-        op=4;
-        while (op<0 || op>3){
-            op=leerNumero("una opción.");
-            if (op<0 || op>3){
-                System.out.println("Las opciones disponibles son 1, 2 y 3 ");
-            }
+    public static int leeropción(){
+        boolean est=false;
+        int op=4;
+        while (est==false){
+            op=leerNumero("el numero de la opción que desea ejecutar");
+            est = validarOpción(op);
+            if (est==false){ error();}
         }
+
         return op;
+    }
+
+    public static boolean validarOpción(int op){
+        boolean e = false;
+        if (op==1 || op==2 || op==3){e=true;}
+        return e;
     }
 
     /**
      * Método que revisa que el numéro de pedido que ingresa el usuariosea válido
      * @return i número de indice del pedido que se quiere eliminar
      */
-    public static int validarIndice(){
+    public static int leerindice(){
+        boolean est = false;
         int i=-1;
+
+        while(est==false){
+            i=leerNumero("el número de pedido que desea eliminar")-1;
+            est= validarIndice(i);
+            if (est == false){error();}
+
+        }
         while(i<0){
             i = leerNumero("el número de pedido que desea eliminar")-1;
             if (i<0 || i>pedidos.size()){
@@ -116,6 +131,13 @@ public class Fabrica_de_Poleras {
         return i;
     }
 
+    public static boolean validarIndice(int numero){
+        boolean est= false;
+        if (numero>=0 && numero<=pedidos.size()){
+            est=true;
+        }
+        return est;
+    }
     /**
      * Método que revisa que regresa true si el usuario ingresa una talla  valida, y false si no lo es
      * @return estadoes verdadero cuando la talla corresponde a  S M L o XL

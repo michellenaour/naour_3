@@ -9,7 +9,9 @@ public class Fabrica_de_PolerasTest {
     }
 
     @Test
-    public void validarOpción() {
+    public void TestvalidarOpcion() {
+        assertEquals(true, Fabrica_de_Poleras.validarOpción(1));
+        assertEquals(false, Fabrica_de_Poleras.validarOpción(4));
 
     }
 
